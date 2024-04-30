@@ -27,10 +27,14 @@ const userSchema = new Schema({
         type: String,
         default: "User"
     },
-    cartId: {
-        type: Schema.Types.ObjectId,
-        ref: 'carts'
+    cart: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Cart' 
     }
+    // cartId: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'carts'
+    // }
 })
 //Previo a guardar en database el user creado, voy a ejecutar un async
 userSchema.pre('save', async function (next) {
@@ -42,7 +46,7 @@ userSchema.pre('save', async function (next) {
     }
 })
 
-userSchema.pre('find', async function (next) { 
+userSchema.pre('find', async function (next) {
     try {
         this.populate('cartId')
     } catch (error) {
